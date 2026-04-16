@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Casamiento de {{ event.nombre1 }} y {{ event.nombre2 }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tipografías -->
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+
+<body>
+
+<div id="bg"></div>
+
+<div class="particles"></div>
+
+<canvas id="sparkles"></canvas>
+
+<!-- HERO -->
+<section class="hero fade-in">
+
+    <p class="hero-intro">Celebramos el casamiento de</p>
+
+    <h1 class="names">
+        {{ event.nombre1 }}
+        <span class="amp">&</span>
+        {{ event.nombre2 }}
+    </h1>
+
+    <div class="event-date">
+        <span class="date">{{ event.fecha }}</span>
+        <span class="separator">•</span>
+        <span class="time">{{ event.hora }}</span>
+    </div>
+
+</section>
+
+<div class="divider">
+    <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="20" height="20" rx="2"
+              transform="rotate(45 32 32)"
+              stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+    </svg>
+</div>
+
+<!-- COUNTDOWN -->
+<section class="section countdown fade-in">
+    <h3>¿Cuánto falta?</h3>
+    <div id="timer" class="countdown-container">
+        <div class="time-box">
+            <span id="days">0</span>
+            <small>Días</small>
+        </div>
+
+        <div class="time-box">
+            <span id="hours">0</span>
+            <small>Horas</small>
+        </div>
+
+        <div class="time-box">
+            <span id="minutes">0</span>
+            <small>Minutos</small>
+        </div>
+
+        <div class="time-box">
+            <span id="seconds">0</span>
+            <small>Segundos</small>
+        </div>
+    </div>
+</section>
+
+<div class="divider">
+    <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="20" height="20" rx="2"
+              transform="rotate(45 32 32)"
+              stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+    </svg>
+</div>
+
+<!-- LUGAR -->
+<section class="section fade-in">
+    <h3>Lugar</h3>
+    <p>{{ event.lugar }}</p>
+    <p>{{ event.direccion }}</p>
+
+    <a 
+        href="{{ event.maps_url }}"
+        target="_blank"
+        class="map-link">
+        Cómo llegar
+    </a>
+</section>
+
+<div class="divider">
+    <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="20" height="20" rx="2"
+              transform="rotate(45 32 32)"
+              stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+    </svg>
+</div>
+
+<!-- ITINERARIO -->
+<section class="section alt fade-in">
+    <h3>Itinerario</h3>
+    <ul>
+        {% for item in event.itinerario %}
+            <li>{{ item }}</li>
+        {% endfor %}
+    </ul>
+</section>
+
+<div class="divider">
+    <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="20" height="20" rx="2"
+              transform="rotate(45 32 32)"
+              stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+    </svg>
+</div>
+
+<!-- RSVP -->
+<section class="section fade-in">
+    <h3>Asistencia</h3>
+
+    <p class="rsvp-deadline">
+        Confirmar antes del 25 de junio de 2026
+    </p>
+
+    <form class="rsvp-form" id="rsvp-form">
+
+        <!-- DATOS BASICOS -->
+        <input type="text" name="nombre" placeholder="Tu nombre" required>
+
+        <select name="asistencia" required>
+            <option value="">¿Asistís?</option>
+            <option value="Sí">Sí</option>
+            <option value="No">No</option>
+        </select>
+
+        <textarea name="mensaje" placeholder="Mensaje (opcional)"></textarea>
+
+        <!-- SEPARADOR VISUAL -->
+        <div class="divider">
+            <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="22" y="22" width="20" height="20" rx="2"
+                    transform="rotate(45 32 32)"
+                    stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+            </svg>
+        </div>
+
+        <!-- PREFERENCIAS ALIMENTARIAS -->
+        <p>Preferencias alimentarias</p>
+
+        <label><input type="checkbox" name="preferencias" value="vegetariano"> Vegetariano/a</label>
+        <label><input type="checkbox" name="preferencias" value="vegano"> Vegano/a</label>
+        <label><input type="checkbox" name="preferencias" value="celiaco"> Celiaco/a</label>
+        <label><input type="checkbox" name="preferencias" value="lactosa"> Intolerante a la lactosa</label>
+        <label><input type="checkbox" name="preferencias" value="frutos_secos"> Intolerante a los frutos secos</label>
+        <label><input type="checkbox" name="preferencias" value="ninguna"> No tengo preferencias</label>
+
+        <!-- TEXTO EXTRA -->
+        <textarea name="otras_preferencias" placeholder="Otras preferencias/alergias:"></textarea>
+
+        <!-- BOTON -->
+        <button type="submit">Enviar confirmacion</button>
+    </form>
+</section>
+
+{% if mostrar_banco %}
+<div class="divider">
+    <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="22" width="20" height="20" rx="2"
+              transform="rotate(45 32 32)"
+              stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+    </svg>
+</div>
+
+<section class="section fade-in alt">
+    <h3 class="bank-text">
+        Para nosotros tu presencia es lo más importante,<br>
+        pero si querés tener un detalle, te dejamos esta opción
+    </h3>
+
+    <div class="divider">
+        <svg class="divider-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="22" y="22" width="20" height="20" rx="2"
+                transform="rotate(45 32 32)"
+                stroke="rgba(255,200,220,0.95)" stroke-width="2" fill="rgba(255,200,220,0.15)"/>
+        </svg>
+    </div>
+
+    <div>
+        <p><strong>CVU</strong><br>{{ event.cvu }}</p>
+        <p><strong>ALIAS</strong><br>{{ event.alias }}</p>
+        <p><strong>TITULAR</strong><br>{{ event.titular }}</p>
+    </div>
+</section>
+{% endif %}
+
+<p class="footer-text">
+    Te esperamos para celebrar juntos este día inolvidable
+</p>
+
+<div class="toast" id="toast">¡Gracias! Asistencia enviada</div>
+
+<script>
+    const eventDate = new Date("{{ event.fecha_js }}").getTime();
+</script>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
